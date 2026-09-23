@@ -50,7 +50,9 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
   void _handleCheckout() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final orderId = await ref.read(checkoutViewModelProvider.notifier).submitOrder(
+    final orderId = await ref
+        .read(checkoutViewModelProvider.notifier)
+        .submitOrder(
           address: _addressController.text.trim(),
           number: _numberController.text.trim(),
         );
@@ -99,7 +101,11 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.remove_shopping_cart_outlined, size: 64, color: AppColors.textMuted),
+              const Icon(
+                Icons.remove_shopping_cart_outlined,
+                size: 64,
+                color: AppColors.textMuted,
+              ),
               const SizedBox(height: 16),
               const Text(
                 'Seu carrinho está vazio',
@@ -122,7 +128,13 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
         title: const Text('Finalizar Pedido'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new, size: 20),
-          onPressed: () => context.pop(),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/catalog');
+            }
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -133,7 +145,11 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
             // Resumo dos Itens
             const Text(
               'Itens Selecionados',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.primary),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: AppColors.primary,
+              ),
             ),
             const SizedBox(height: 12),
             Container(
@@ -146,7 +162,8 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: cartState.itemList.length,
-                separatorBuilder: (context, index) => const Divider(height: 1, color: AppColors.border),
+                separatorBuilder: (context, index) =>
+                    const Divider(height: 1, color: AppColors.border),
                 itemBuilder: (context, index) {
                   final item = cartState.itemList[index];
                   return Padding(
@@ -160,8 +177,10 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                             width: 52,
                             height: 52,
                             fit: BoxFit.contain,
-                            placeholder: (context, url) => Container(color: AppColors.surfaceVariant),
-                            errorWidget: (context, url, error) => const Icon(Icons.sports_bar),
+                            placeholder: (context, url) =>
+                                Container(color: AppColors.surfaceVariant),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.sports_bar),
                           ),
                         ),
                         const SizedBox(width: 12),
@@ -171,12 +190,18 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                             children: [
                               Text(
                                 item.product.name,
-                                style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 14,
+                                ),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 '${item.quantity}x ${Formatters.formatCurrency(item.product.price)}',
-                                style: const TextStyle(color: AppColors.textSecondary, fontSize: 13),
+                                style: const TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 13,
+                                ),
                               ),
                             ],
                           ),
@@ -191,8 +216,14 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                         ),
                         const SizedBox(width: 4),
                         IconButton(
-                          icon: const Icon(Icons.delete_outline, size: 20, color: AppColors.error),
-                          onPressed: () => ref.read(cartViewModelProvider.notifier).removeItem(item.product.id),
+                          icon: const Icon(
+                            Icons.delete_outline,
+                            size: 20,
+                            color: AppColors.error,
+                          ),
+                          onPressed: () => ref
+                              .read(cartViewModelProvider.notifier)
+                              .removeItem(item.product.id),
                         ),
                       ],
                     ),
@@ -206,7 +237,11 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
             // Formulário de Endereço de Entrega
             const Text(
               'Endereço de Entrega',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.primary),
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w800,
+                color: AppColors.primary,
+              ),
             ),
             const SizedBox(height: 12),
             Container(
@@ -229,14 +264,19 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                         labelText: 'CEP (Opcional - busca automática)',
                         hintText: '00000-000',
                         counterText: '',
-                        prefixIcon: const Icon(Icons.map_outlined, color: AppColors.textSecondary),
+                        prefixIcon: const Icon(
+                          Icons.map_outlined,
+                          color: AppColors.textSecondary,
+                        ),
                         suffixIcon: _isLoadingCep
                             ? const Padding(
                                 padding: EdgeInsets.all(12),
                                 child: SizedBox(
                                   width: 18,
                                   height: 18,
-                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
                                 ),
                               )
                             : null,
@@ -247,10 +287,15 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                       controller: _addressController,
                       decoration: const InputDecoration(
                         labelText: 'Endereço (Rua, Av.)',
-                        prefixIcon: Icon(Icons.location_on_outlined, color: AppColors.textSecondary),
+                        prefixIcon: Icon(
+                          Icons.location_on_outlined,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                       validator: (value) =>
-                          value == null || value.trim().isEmpty ? 'Informe o endereço' : null,
+                          value == null || value.trim().isEmpty
+                          ? 'Informe o endereço'
+                          : null,
                     ),
                     const SizedBox(height: 14),
                     TextFormField(
@@ -258,10 +303,15 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                       keyboardType: TextInputType.text,
                       decoration: const InputDecoration(
                         labelText: 'Número / Complemento',
-                        prefixIcon: Icon(Icons.home_outlined, color: AppColors.textSecondary),
+                        prefixIcon: Icon(
+                          Icons.home_outlined,
+                          color: AppColors.textSecondary,
+                        ),
                       ),
                       validator: (value) =>
-                          value == null || value.trim().isEmpty ? 'Informe o número' : null,
+                          value == null || value.trim().isEmpty
+                          ? 'Informe o número'
+                          : null,
                     ),
                   ],
                 ),
@@ -284,7 +334,11 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                     children: [
                       const Text(
                         'Total a Pagar',
-                        style: TextStyle(color: Color(0xFFCBD5E1), fontSize: 15, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          color: Color(0xFFCBD5E1),
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
                         Formatters.formatCurrency(cartState.totalPrice),
@@ -300,22 +354,32 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: checkoutState.isLoading ? null : _handleCheckout,
+                      onPressed: checkoutState.isLoading
+                          ? null
+                          : _handleCheckout,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         foregroundColor: AppColors.primaryDark,
                         padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
                       ),
                       child: checkoutState.isLoading
                           ? const SizedBox(
                               height: 20,
                               width: 20,
-                              child: CircularProgressIndicator(strokeWidth: 2.5, color: AppColors.primaryDark),
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2.5,
+                                color: AppColors.primaryDark,
+                              ),
                             )
                           : const Text(
                               'Confirmar Pedido 🚀',
-                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
                     ),
                   ),
