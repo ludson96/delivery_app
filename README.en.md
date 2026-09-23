@@ -15,6 +15,7 @@ Modern native Flutter mobile application for beverage delivery featuring role-ba
 ## 📌 Quick Navigation
 
 - [📝 About the Project](#-about-the-project)
+- [👥 Project Origin & Legacy](#-project-origin--legacy)
 - [🖼️ Preview](#️-preview)
 - [⚡ API Endpoints](#-api-endpoints)
 - [✨ Key Features](#-key-features)
@@ -30,6 +31,15 @@ Modern native Flutter mobile application for beverage delivery featuring role-ba
 **Docker Drinks Mobile** is a complete e-commerce and delivery logistics solution developed in Flutter to transform a legacy web interface into a 100% native, smooth, and responsive mobile application.
 
 The project was crafted following a **Feature-First** structure combined with the **MVVM (Model-View-ViewModel)** architectural pattern using **Riverpod**, ensuring strict separation of concerns, high testability, and long-term maintainability. It communicates directly with a production RESTful backend and consumes real-time WebSocket events for instant order status transitions.
+
+## 👥 Project Origin & Legacy
+
+This mobile application is an evolution and native mobile port built upon the original web application project available at:  
+🔗 [**ludson96/project-delivery-app**](https://github.com/ludson96/project-delivery-app)
+
+### 🔄 From Web to Native Mobile
+- **Original Web Project**: Built originally as a full-stack browser web application (React on the front-end, Node.js/Express and Sequelize on the backend), establishing the business logic, role-based workflows (Customer, Seller, and Admin), and the delivery order lifecycle.
+- **Mobile Evolution**: Leveraging the core ecosystem and production REST/WebSocket backend, this repository reimagines and rebuilds the end-to-end customer and merchant experience as a modern native Flutter app — delivering fluid animations, haptic tactile response, smart postal lookup via ViaCEP, and responsive native UI components for Android and iOS.
 
 ## 🖼️ Preview
 

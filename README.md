@@ -1,4 +1,4 @@
-# 🍺 Docker Drinks — Mobile App (Flutter)
+# 🍺 Docker Drinks — Flutter
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.x-02569B.svg?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
 [![Dart](https://img.shields.io/badge/Dart-3.10-0175C2.svg?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
@@ -15,6 +15,7 @@ Aplicativo mobile nativo em Flutter para delivery de bebidas com autenticação 
 ## 📌 Navegação Rápida
 
 - [📝 Sobre o Projeto](#-sobre-o-projeto)
+- [👥 Origem e Histórico do Projeto](#-origem-e-histórico-do-projeto)
 - [🖼️ Preview](#️-preview)
 - [⚡ API Endpoints](#-api-endpoints)
 - [✨ Funcionalidades](#-funcionalidades)
@@ -30,6 +31,15 @@ Aplicativo mobile nativo em Flutter para delivery de bebidas com autenticação 
 O **Docker Drinks Mobile** é uma solução completa de e-commerce e logística de entregas desenvolvida em Flutter para transformar a experiência web legada em um aplicativo móvel 100% nativo, fluido e responsivo.
 
 O projeto foi concebido seguindo a organização **Feature-First** combinada com a arquitetura de software **MVVM (Model-View-ViewModel)** via **Riverpod**, garantindo separação clara de responsabilidades, testabilidade e manutenibilidade. Ele se comunica diretamente com a API RESTful em produção e consome eventos via WebSocket para garantir atualizações instantâneas de status de pedidos.
+
+## 👥 Origem e Histórico do Projeto
+
+Este aplicativo móvel é uma evolução e recriação em **Flutter nativo** baseada no projeto original de aplicação web disponível em:  
+🔗 [**ludson96/project-delivery-app**](https://github.com/ludson96/project-delivery-app)
+
+### 🔄 Da Web ao Mobile Nativo
+- **Projeto Web Original**: Desenvolvido anteriormente como uma aplicação full-stack para navegadores (React no front-end, Node.js/Express e Sequelize no back-end), servindo como base conceitual de regras de negócio, fluxos de autenticação por papéis (Cliente, Vendedor e Admin) e ciclo de vida de pedidos de delivery.
+- **Evolução para o App Mobile**: Tomando a base do ecossistema e a API REST/WebSocket em produção, este repositório reimagina e reconstrói toda a experiência do cliente e dos gestores em um ecossistema mobile moderno, com arquitetura reativa em Flutter, animações fluidas, feedback tátil, preenchimento de endereço inteligente via ViaCEP e componentes visuais nativos para iOS e Android.
 
 ## 🖼️ Preview
 
