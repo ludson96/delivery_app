@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../../core/services/cep_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../../cart/viewmodels/cart_viewmodel.dart';
@@ -16,14 +18,33 @@ class CheckoutView extends ConsumerStatefulWidget {
 
 class _CheckoutViewState extends ConsumerState<CheckoutView> {
   final _formKey = GlobalKey<FormState>();
+  final _cepController = TextEditingController();
   final _addressController = TextEditingController(text: 'Rua das Cervejas');
   final _numberController = TextEditingController(text: '123');
+  bool _isLoadingCep = false;
 
   @override
   void dispose() {
+    _cepController.dispose();
     _addressController.dispose();
     _numberController.dispose();
     super.dispose();
+  }
+
+  void _onCepChanged(String value) async {
+    final clean = value.replaceAll(RegExp(r'\D'), '');
+    if (clean.length == 8) {
+      setState(() => _isLoadingCep = true);
+      final address = await CepService.fetchAddressByCep(clean);
+      setState(() => _isLoadingCep = false);
+
+      if (address != null) {
+        HapticFeedback.lightImpact();
+        setState(() {
+          _addressController.text = address.fullStreet;
+        });
+      }
+    }
   }
 
   void _handleCheckout() async {
@@ -36,6 +57,7 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
 
     if (mounted) {
       if (orderId != null) {
+        HapticFeedback.heavyImpact();
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Pedido realizado com sucesso! 🎉'),
@@ -45,6 +67,7 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
         );
         context.go('/orders');
       } else {
+        HapticFeedback.mediumImpact();
         final error = ref.read(checkoutViewModelProvider).errorMessage;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -197,6 +220,29 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
                 key: _formKey,
                 child: Column(
                   children: [
+                    TextFormField(
+                      controller: _cepController,
+                      keyboardType: TextInputType.number,
+                      maxLength: 9,
+                      onChanged: _onCepChanged,
+                      decoration: InputDecoration(
+                        labelText: 'CEP (Opcional - busca automática)',
+                        hintText: '00000-000',
+                        counterText: '',
+                        prefixIcon: const Icon(Icons.map_outlined, color: AppColors.textSecondary),
+                        suffixIcon: _isLoadingCep
+                            ? const Padding(
+                                padding: EdgeInsets.all(12),
+                                child: SizedBox(
+                                  width: 18,
+                                  height: 18,
+                                  child: CircularProgressIndicator(strokeWidth: 2),
+                                ),
+                              )
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
                     TextFormField(
                       controller: _addressController,
                       decoration: const InputDecoration(

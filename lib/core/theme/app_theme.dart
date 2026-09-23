@@ -43,12 +43,7 @@ class AppTheme {
         elevation: 0,
         scrolledUnderElevation: 2,
         centerTitle: true,
-        shape: Border(
-          bottom: BorderSide(
-            color: AppColors.border,
-            width: 1,
-          ),
-        ),
+        shape: Border(bottom: BorderSide(color: AppColors.border, width: 1)),
         iconTheme: IconThemeData(color: AppColors.primary),
         titleTextStyle: TextStyle(
           color: AppColors.primary,
@@ -65,16 +60,16 @@ class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
-          textStyle: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-          ),
+          textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: AppColors.border),
@@ -91,7 +86,10 @@ class AppTheme {
           borderRadius: BorderRadius.circular(16),
           borderSide: const BorderSide(color: AppColors.error),
         ),
-        labelStyle: const TextStyle(color: AppColors.textSecondary, fontSize: 14),
+        labelStyle: const TextStyle(
+          color: AppColors.textSecondary,
+          fontSize: 14,
+        ),
         hintStyle: const TextStyle(color: AppColors.textMuted, fontSize: 14),
       ),
       cardTheme: CardThemeData(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../core/theme/app_colors.dart';
@@ -129,7 +130,10 @@ class ProductCard extends ConsumerWidget {
                         icon: const Icon(Icons.remove, size: 18),
                         color: quantity > 0 ? AppColors.primary : AppColors.textMuted,
                         onPressed: quantity > 0
-                            ? () => ref.read(cartViewModelProvider.notifier).decrement(product)
+                            ? () {
+                                HapticFeedback.lightImpact();
+                                ref.read(cartViewModelProvider.notifier).decrement(product);
+                              }
                             : null,
                       ),
                       Text(
@@ -145,7 +149,10 @@ class ProductCard extends ConsumerWidget {
                         padding: EdgeInsets.zero,
                         icon: const Icon(Icons.add, size: 18),
                         color: AppColors.primary,
-                        onPressed: () => ref.read(cartViewModelProvider.notifier).increment(product),
+                        onPressed: () {
+                          HapticFeedback.lightImpact();
+                          ref.read(cartViewModelProvider.notifier).increment(product);
+                        },
                       ),
                     ],
                   ),
