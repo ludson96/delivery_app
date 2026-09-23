@@ -20,11 +20,12 @@ class AppScaffoldBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: false,
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true, // Estende o background por trás da AppBar e Status Bar
       appBar: appBar,
       body: Stack(
         children: [
-          // Background.webp fixo em tela cheia
+          // Background.webp em tela cheia estendido cobrindo AppBar e StatusBar
           Positioned.fill(
             child: Image.asset(
               AppConstants.backgroundAsset,
@@ -37,9 +38,16 @@ class AppScaffoldBackground extends StatelessWidget {
               color: Colors.black.withValues(alpha: overlayOpacity),
             ),
           ),
-          // Conteúdo da tela
+          // Conteúdo da tela com SafeArea opcional ou padding do topo da AppBar
           Positioned.fill(
-            child: child,
+            child: appBar != null
+                ? Padding(
+                    padding: EdgeInsets.only(
+                      top: MediaQuery.of(context).padding.top + kToolbarHeight,
+                    ),
+                    child: child,
+                  )
+                : child,
           ),
         ],
       ),

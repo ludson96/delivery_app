@@ -16,40 +16,36 @@ class CatalogView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final productsAsync = ref.watch(catalogProductsProvider);
     final cartState = ref.watch(cartViewModelProvider);
-    final user = ref.watch(authViewModelProvider).user;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Image.asset(
-              AppConstants.logoAsset,
-              height: 28,
-              fit: BoxFit.contain,
-            ),
-            if (user?.name != null && user!.name.isNotEmpty) ...[
-              const SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: AppColors.accent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  user.name.split(' ').first,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-            ],
-          ],
+        centerTitle: false,
+        titleSpacing: 16,
+        title: Image.asset(
+          AppConstants.logoAsset,
+          height: 34,
+          fit: BoxFit.contain,
         ),
         actions: [
+          // Ícone do Carrinho de Compras com Badge reativo de quantidade
+          IconButton(
+            tooltip: 'Carrinho de Compras',
+            icon: Badge(
+              isLabelVisible: cartState.totalItemCount > 0,
+              label: Text(
+                '${cartState.totalItemCount}',
+                style: const TextStyle(
+                  color: AppColors.primaryDark,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 10,
+                ),
+              ),
+              backgroundColor: AppColors.accent,
+              child: const Icon(Icons.shopping_cart_outlined),
+            ),
+            onPressed: () => context.push('/checkout'),
+          ),
           IconButton(
             tooltip: 'Meus Pedidos',
             icon: const Icon(Icons.receipt_long_outlined),
@@ -96,7 +92,10 @@ class CatalogView extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(12),
@@ -113,7 +112,7 @@ class CatalogView extends ConsumerWidget {
                         ),
                         const SizedBox(height: 10),
                         const Text(
-                          'Bebidas geladas na velocidade da luz ⚡',
+                          'Escolha seus produtos e receba no conforto de casa.',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -122,10 +121,6 @@ class CatalogView extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        const Text(
-                          'Escolha seus produtos e receba no conforto de casa.',
-                          style: TextStyle(color: Color(0xFFCBD5E1), fontSize: 13),
-                        ),
                       ],
                     ),
                   ),
@@ -144,16 +139,23 @@ class CatalogView extends ConsumerWidget {
                     }
 
                     return SliverPadding(
-                      padding: EdgeInsets.fromLTRB(16, 0, 16, cartState.isEmpty ? 24 : 100),
+                      padding: EdgeInsets.fromLTRB(
+                        16,
+                        0,
+                        16,
+                        cartState.isEmpty ? 24 : 100,
+                      ),
                       sliver: SliverGrid(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 0.68,
-                          crossAxisSpacing: 14,
-                          mainAxisSpacing: 14,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.68,
+                              crossAxisSpacing: 14,
+                              mainAxisSpacing: 14,
+                            ),
                         delegate: SliverChildBuilderDelegate(
-                          (context, index) => ProductCard(product: products[index]),
+                          (context, index) =>
+                              ProductCard(product: products[index]),
                           childCount: products.length,
                         ),
                       ),
@@ -162,7 +164,9 @@ class CatalogView extends ConsumerWidget {
                   loading: () => const SliverFillRemaining(
                     hasScrollBody: false,
                     child: Center(
-                      child: CircularProgressIndicator(color: AppColors.primary),
+                      child: CircularProgressIndicator(
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                   error: (error, _) => SliverFillRemaining(
@@ -173,16 +177,23 @@ class CatalogView extends ConsumerWidget {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Icon(Icons.error_outline, size: 48, color: AppColors.error),
+                            const Icon(
+                              Icons.error_outline,
+                              size: 48,
+                              color: AppColors.error,
+                            ),
                             const SizedBox(height: 12),
                             Text(
                               'Erro ao carregar catálogo: $error',
                               textAlign: TextAlign.center,
-                              style: const TextStyle(color: AppColors.textSecondary),
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                              ),
                             ),
                             const SizedBox(height: 16),
                             ElevatedButton(
-                              onPressed: () => ref.refresh(catalogProductsProvider),
+                              onPressed: () =>
+                                  ref.refresh(catalogProductsProvider),
                               child: const Text('Tentar Novamente'),
                             ),
                           ],
@@ -202,7 +213,10 @@ class CatalogView extends ConsumerWidget {
               right: 16,
               bottom: 20,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 14,
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.primaryDark,
                   borderRadius: BorderRadius.circular(22),
@@ -223,7 +237,7 @@ class CatalogView extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(14),
                       ),
                       child: const Icon(
-                        Icons.shopping_bag_outlined,
+                        Icons.shopping_cart_outlined,
                         color: AppColors.primaryDark,
                         size: 20,
                       ),
@@ -258,7 +272,10 @@ class CatalogView extends ConsumerWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.accent,
                         foregroundColor: AppColors.primaryDark,
-                        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 12,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
@@ -267,7 +284,10 @@ class CatalogView extends ConsumerWidget {
                         children: [
                           Text(
                             'Ver Carrinho',
-                            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 13,
+                            ),
                           ),
                           SizedBox(width: 4),
                           Icon(Icons.arrow_forward_ios, size: 12),

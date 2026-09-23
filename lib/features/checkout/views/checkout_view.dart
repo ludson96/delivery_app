@@ -64,7 +64,14 @@ class _CheckoutViewState extends ConsumerState<CheckoutView> {
 
     if (cartState.isEmpty) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Carrinho')),
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          title: const Text('Carrinho'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, size: 20),
+            onPressed: () => context.pop(),
+          ),
+        ),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
