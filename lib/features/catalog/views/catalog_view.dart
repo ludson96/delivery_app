@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../../core/constants/app_constants.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/formatters.dart';
 import '../viewmodels/catalog_viewmodel.dart';
@@ -23,9 +24,13 @@ class CatalogView extends ConsumerWidget {
         title: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text('🍺 Docker Drinks'),
+            Image.asset(
+              AppConstants.logoAsset,
+              height: 28,
+              fit: BoxFit.contain,
+            ),
             if (user?.name != null && user!.name.isNotEmpty) ...[
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
